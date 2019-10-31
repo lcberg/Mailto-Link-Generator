@@ -1,2 +1,2 @@
 # Mailto-Link-Generator
-A small javascript tool used to easily create mailto links
+A small javascript tool with which mailto links are created easily.

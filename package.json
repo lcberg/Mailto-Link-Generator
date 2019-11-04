@@ -1,0 +1,22 @@
+{
+  "name": "mailto-link-generator",
+  "version": "1.0.0",
+  "description": "generate mailto links",
+  "main": "mailtogen.js",
+  "scripts": {
+    "test": "mocha tests/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcberg/Mailto-Link-Generator.git"
+  },
+  "author": "lcberg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lcberg/Mailto-Link-Generator/issues"
+  },
+  "homepage": "https://github.com/lcberg/Mailto-Link-Generator#readme",
+  "devDependencies": {
+    "mocha": "^6.2.2"
+  }
+}

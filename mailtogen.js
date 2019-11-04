@@ -23,7 +23,9 @@ var mailLinkGenerator = function() {
     function _validateEmail(email) {
         var exp = new RegExp(__emailValidateExpression);
         _log('Testing email: ' + email)
-        return exp.test(email);
+        let regtest =  exp.test(email);
+        let whitespace = email.indexOf(' ') >= 0; 
+        return regtest && !whitespace;
     };
 
     function _setSubject(text) {
@@ -56,17 +58,24 @@ var mailLinkGenerator = function() {
     // Adds the given email to the recipients array, but only if its a string.
     // Checks if email validation is turned on (default: true) for valid emails.
     function _addRecipient(email) {
+        // remove whitespace
+        email = email.trim();
         if(_isString(email)) {
             if(__validateEmails) {
                 if(_validateEmail(email)) { 
                     email = _escapeQuestionmark(email);
                     email = _escapeAmpersand(email);
-                    _recipients.push(email);
-                    _log('A new email was added to the recipients: ' + email);
-                    return true;
+                    if(!_recipients.includes(email)) {
+                        _recipients.push(email);
+                        _log('A new email was added to the recipients: ' + email);
+                        return true;
+                    } else {
+                        _log('The provided email was not added to the recipients because it is a duplicate. (' + email + ')');
+                        return false;
+                    }
                 }
                 else {
-                    _log('The provided email was not added to the recipients because it failed the email validation.')
+                    _log('The provided email was not added to the recipients because it failed the email validation. (' + email + ')');
                     return false;
                 }
             }
@@ -98,17 +107,24 @@ var mailLinkGenerator = function() {
     }
 
     function _addCC(email) {
+        // remove whitespace
+        email = email.trim();
         if(_isString(email)) {
             if(__validateEmails) {
                 if(_validateEmail(email)) { 
                     email = _escapeQuestionmark(email);
                     email = _escapeAmpersand(email);
-                    _ccs.push(email);
-                    _log('A new email was added to the ccs: ' + email);
-                    return true;
+                    if(!_ccs.includes(email)) {
+                        _ccs.push(email);
+                        _log('A new email was added to the ccs: ' + email);
+                        return true;
+                    } else {
+                        _log('The provided email was not added to the ccs because it is a duplicate. (' + email + ')');
+                        return false;
+                    }
                 }
                 else {
-                    _log('The provided email was not added to the ccs because it failed the email validation.')
+                    _log('The provided email was not added to the ccs because it failed the email validation. (' + email + ')')
                     return false;
                 }
             }
@@ -139,17 +155,24 @@ var mailLinkGenerator = function() {
     }
 
     function _addBCC(email) {
+        // trim whitespace
+        email = email.trim();
         if(_isString(email)) {
             if(__validateEmails) {
                 if(_validateEmail(email)) { 
                     email = _escapeQuestionmark(email);
                     email = _escapeAmpersand(email);
-                    _bccs.push(email);
-                    _log('A new email was added to the bccs: ' + email);
-                    return true;
+                    if(!_bccs.includes(email)) {
+                        _bccs.push(email);
+                        _log('A new email was added to the bccs: ' + email);
+                        return true;
+                    } else {
+                        _log('The provided email was not added to the bccs because it is a duplicate. (' + email + ')');
+                        return false;
+                    }
                 }
                 else {
-                    _log('The provided email was not added to the bccs because it failed the email validation.')
+                    _log('The provided email was not added to the bccs because it failed the email validation. (' + email + ')');
                     return false;
                 }
             }
@@ -290,4 +313,6 @@ var mailLinkGenerator = function() {
     return publicInterface;
 }
 
-export default mailLinkGenerator;
+//export default mailLinkGenerator;
+
+exports.mailtogen = mailLinkGenerator;
